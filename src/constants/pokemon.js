@@ -1,0 +1,1 @@
+export const visibleTypeFilters = ["all", "fire", "water", "grass", "electric", "poison", "flying", "ghost", "dragon", "psychic", "rock", "bug", "ice", "ground", "fairy", "fighting", "steel", "dark", "normal"]
