@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { askProfessor } from "../services/chat"
+import professorImg from "../assets/professor-carvalho.png"
 
 const initialMessage = { role: "professor", text: "Ola! Eu sou o Professor Carvalho. Escolha um Pokemon e me pergunte sobre tipos, fraquezas, estrategias ou curiosidades." }
 
@@ -38,14 +39,16 @@ export function ProfessorChat({ pokemon }) {
     return (
         <div className="chat">
             <div className="chat-title">
+                <img src={professorImg} alt="Professor Carvalho" className="professor-avatar" />
                 <h2>Professor Carvalho</h2>
                 <p>{status === "thinking" ? "Pensando..." : "Especialista Pokemon"}</p>
             </div>
             <div className="messages">
                 {messages.map((m, i) => (
                     <div className={`${m.role}-bubble ${m.error ? "error" : ""}`} key={i}>
+                        {m.role === "professor" && <span className={`professor-mini ${status}`}>PC</span>}
                         <p>{m.text}</p>
-                        {m.role === "professor" && <button onClick={() => navigator.clipboard?.writeText(m.text)}>Copiar</button>}
+                        {m.role === "professor" && <button className="copy-answer" onClick={() => navigator.clipboard?.writeText(m.text)}>Copiar</button>}
                     </div>
                 ))}
             </div>
