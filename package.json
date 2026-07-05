@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "powershell -ExecutionPolicy Bypass -File ./dev.ps1",
+    "start": "powershell -ExecutionPolicy Bypass -File ./start.ps1",
     "lint": "npm --prefix frontend run lint",
     "build": "npm --prefix frontend run build"
   }

@@ -1,4 +1,4 @@
-const api = import.meta.env.VITE_API_URL || "http://localhost:8000"
+const api = import.meta.env.VITE_API_URL || ""
 
 export const askProfessor = async (pokemon, question) => {
     const r = await fetch(`${api}/chat/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pokemon, question }) })

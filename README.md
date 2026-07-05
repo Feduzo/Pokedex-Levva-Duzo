@@ -25,13 +25,22 @@ A aplicacao permite listar Pokemon, visualizar detalhes consumidos da PokeAPI e 
 Depois de instalar as dependencias do backend e do frontend, rode na raiz:
 
 ```bash
+npm run start
+```
+
+Esse comando gera o build do frontend e sobe a aplicacao completa em:
+
+```bash
+http://localhost:8000
+```
+
+Para desenvolvimento, tambem existe:
+
+```bash
 npm run dev
 ```
 
-Esse comando sobe:
-
-- Backend em `http://localhost:8000`
-- Frontend em `http://localhost:5173`
+Esse comando sobe o backend em `http://localhost:8000` e o frontend com hot reload em `http://localhost:5173`.
 
 ### Backend
 
@@ -94,7 +103,8 @@ Tambem foi feita validacao de sintaxe dos arquivos Python do backend.
 
 Endpoints uteis do backend:
 
-- `GET /`: status da API.
+- `GET /`: aplicacao web quando o frontend foi buildado.
+- `GET /health`: status da API.
 - `GET /pokemon?limit=251`: lista Pokemon pela PokeAPI.
 - `GET /pokemon/{name}`: busca detalhes de um Pokemon.
 - `POST /chat`: envia o Pokemon e a pergunta para a LLM.
