@@ -1,0 +1,9 @@
+{
+  "name": "pokedex-levva-duzo",
+  "private": true,
+  "scripts": {
+    "dev": "powershell -ExecutionPolicy Bypass -File ./dev.ps1",
+    "lint": "npm --prefix frontend run lint",
+    "build": "npm --prefix frontend run build"
+  }
+}

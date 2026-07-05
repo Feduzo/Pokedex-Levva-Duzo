@@ -20,6 +20,19 @@ A aplicacao permite listar Pokemon, visualizar detalhes consumidos da PokeAPI e 
 
 ## Como rodar
 
+### Projeto completo
+
+Depois de instalar as dependencias do backend e do frontend, rode na raiz:
+
+```bash
+npm run dev
+```
+
+Esse comando sobe:
+
+- Backend em `http://localhost:8000`
+- Frontend em `http://localhost:5173`
+
 ### Backend
 
 ```bash
