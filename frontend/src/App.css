@@ -126,6 +126,8 @@ input:focus-visible {
   display: grid;
   grid-template-columns: 410px minmax(440px, 1fr) 430px;
   gap: 14px;
+  align-items: stretch;
+  height: calc(100vh - 128px);
   min-height: 650px;
   padding: 16px;
   border: 5px solid rgba(110, 16, 36, 0.3);
@@ -136,7 +138,8 @@ input:focus-visible {
 }
 
 .panel {
-  min-height: 650px;
+  height: 100%;
+  min-height: 0;
   padding: 16px;
   border: 1px solid #d7e0ec;
   border-radius: 16px;
@@ -147,8 +150,6 @@ input:focus-visible {
 .list-panel {
   display: flex;
   flex-direction: column;
-  height: 650px;
-  min-height: 650px;
   overflow: hidden;
 }
 
@@ -462,7 +463,7 @@ input:focus-visible {
 .chat {
   display: flex;
   flex-direction: column;
-  height: 620px;
+  height: 100%;
   min-height: 0;
 }
 
@@ -524,6 +525,7 @@ input:focus-visible {
 
 .messages {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 12px;
   min-height: 0;
@@ -531,8 +533,8 @@ input:focus-visible {
 }
 
 .pokedex-chat-screen {
-  min-height: 250px;
-  max-height: 300px;
+  min-height: 0;
+  max-height: none;
   margin: 14px 0 0;
   padding: 14px;
   border: 3px solid #111827;
@@ -740,11 +742,16 @@ input:focus-visible {
 
   .panel {
     min-height: auto;
+    height: auto;
   }
 
   .list-panel {
     height: 620px;
     min-height: 620px;
+  }
+
+  .chat {
+    height: auto;
   }
 
   .facts {
