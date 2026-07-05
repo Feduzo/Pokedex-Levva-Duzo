@@ -61,11 +61,11 @@ export function ProfessorChat({ pokemon }) {
         <ProfessorAvatar status={status} />
         <div>
           <h2>Professor Carvalho</h2>
-          <p>{status === "thinking" ? "Pensando..." : "Especialista Pokémon"}</p>
+          <p>{status === "thinking" ? "Analisando dados..." : "Consultor da Pokedex"}</p>
         </div>
       </div>
 
-      <div className="messages">
+      <div className="messages pokedex-chat-screen">
         {messages.map((message, index) => (
           <div className={`${message.role}-bubble ${message.error ? "error" : ""}`} key={`${message.role}-${index}`}>
             {message.role === "professor" && <ProfessorMini status={message.error ? "error" : status} />}
@@ -98,7 +98,7 @@ export function ProfessorChat({ pokemon }) {
 }
 
 function ProfessorAvatar({ status }) {
-  const label = status === "thinking" ? "Pensando..." : status === "speaking" ? "Digitando..." : status === "error" ? "Ops!" : ""
+  const label = status === "thinking" ? "Pensando..." : status === "speaking" ? "Respondendo..." : status === "error" ? "Ops!" : ""
 
   return (
     <div className={`professor-avatar ${status}`}>
