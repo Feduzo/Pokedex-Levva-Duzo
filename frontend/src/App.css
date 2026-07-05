@@ -286,6 +286,17 @@ input:focus-visible {
   overflow: hidden;
 }
 
+.detail-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100%;
+  color: #475569;
+  font-size: 18px;
+  font-weight: 900;
+  text-align: center;
+}
+
 .pokemon-detail {
   position: relative;
   display: flex;

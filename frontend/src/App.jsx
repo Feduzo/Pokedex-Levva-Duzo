@@ -46,7 +46,7 @@ export default function App() {
             <section className="workspace">
                 <PokemonList filter={filter} loading={loading} pokemon={filtered} query={query} selectedId={selected?.id} onFilterChange={setFilter} onPokemonSelect={choosePokemon} onQueryChange={setQuery} />
                 <section className="panel detail-panel">
-                    {selected && <PokemonDetails pokemon={selected} description={description} onCry={() => playCry(selected, volume, muted)} />}
+                    {selected ? <PokemonDetails pokemon={selected} description={description} onCry={() => playCry(selected, volume, muted)} /> : <div className="detail-placeholder">Carregando dados da Pokedex...</div>}
                 </section>
                 <aside className="panel assistant-panel">
                     <ProfessorChat pokemon={selected} />
