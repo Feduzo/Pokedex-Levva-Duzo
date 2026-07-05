@@ -17,10 +17,19 @@ export default function App() {
     const [muted, setMuted] = useState(false)
 
     useEffect(() => {
+        let cancelled = false
+        const loaded = []
+
         fetchPokemonPage(251, batch => {
-            setPokemon(current => [...current, ...batch])
+            if (cancelled) return
+            loaded.push(...batch)
+            setPokemon([...loaded])
             setSelected(current => current || batch[0])
-        }).finally(() => setLoading(false))
+        }).finally(() => {
+            if (!cancelled) setLoading(false)
+        })
+
+        return () => { cancelled = true }
     }, [])
 
     useEffect(() => {
