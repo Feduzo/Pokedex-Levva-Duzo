@@ -12,11 +12,15 @@ def build_prompt(pokemon: dict, question: str) -> str:
     return f"Pokemon: {pokemon.get('name')} | Tipos: {types} | Habilidades: {abilities} | Stats: {stats}\n\nPergunta: {question}"
 
 async def ask_llm(pokemon: dict, question: str) -> str:
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=503, detail="OPENROUTER_API_KEY nao configurada.")
+
     try:
         async with httpx.AsyncClient(timeout=20) as c:
             r = await c.post(
                 OPENROUTER_URL,
-                headers={"Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}"},
+                headers={"Authorization": f"Bearer {api_key}"},
                 json={"model": MODEL, "messages": [
                     {"role": "system", "content": "Voce e o Professor Carvalho. Responda em portugues brasileiro, de forma curta e didatica."},
                     {"role": "user", "content": build_prompt(pokemon, question)}

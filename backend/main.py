@@ -11,3 +11,7 @@ app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http
 
 app.include_router(pokemon.router)
 app.include_router(chat.router)
+
+@app.get("/")
+async def health_check():
+    return {"status": "ok", "service": "Pokedex Levva Duzo API"}

@@ -6,7 +6,7 @@ A aplicacao permite listar Pokemon, visualizar detalhes consumidos da PokeAPI e 
 
 ## Funcionalidades
 
-- Listagem de Pokemon com busca por nome e filtro por tipo.
+- Listagem de Pokemon com busca por nome.
 - Tela de detalhes com imagem, tipos, status, altura, peso, habilidade e descricao.
 - Reproducao do cry do Pokemon selecionado.
 - Chat com o Professor Carvalho usando contexto do Pokemon e pergunta do usuario.
@@ -77,3 +77,10 @@ npm run build
 ```
 
 Tambem foi feita validacao de sintaxe dos arquivos Python do backend.
+
+Endpoints uteis do backend:
+
+- `GET /`: status da API.
+- `GET /pokemon?limit=251`: lista Pokemon pela PokeAPI.
+- `GET /pokemon/{name}`: busca detalhes de um Pokemon.
+- `POST /chat`: envia o Pokemon e a pergunta para a LLM.

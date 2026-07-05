@@ -15,4 +15,4 @@ async def get_json(url: str):
         raise HTTPException(status_code=502, detail="Nao foi possivel consultar a PokeAPI agora.")
 
 async def list_pokemon(limit: int = 50): return await get_json(f"{POKEAPI_URL}/pokemon?limit={limit}")
-async def get_pokemon_by_name(name: str): return await get_json(f"{POKEAPI_URL}/pokemon/{name.lower()}")
+async def get_pokemon_by_name(name: str): return await get_json(f"{POKEAPI_URL}/pokemon/{name.strip().lower()}")
