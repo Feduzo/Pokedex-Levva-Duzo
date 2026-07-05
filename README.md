@@ -1,4 +1,4 @@
-# Pokedex Inteligente - Levva
+# Pokedex Inteligente - levva
 
 Projeto desenvolvido para o desafio tecnico de Estagio em Engenharia de Software da levva.
 
@@ -7,8 +7,8 @@ A aplicacao permite listar Pokemon, visualizar detalhes consumidos da PokeAPI e 
 ## Funcionalidades
 
 - Listagem de Pokemon com busca por nome.
-- Tela de detalhes com imagem, tipos, status, altura, peso, habilidade e descricao.
-- Reproducao do cry do Pokemon selecionado.
+- Tela de detalhes com imagem, tipos, atributos, altura, peso, habilidade e descricao.
+- Reproducao do som do Pokemon selecionado.
 - Chat com o Professor Carvalho usando contexto do Pokemon e pergunta do usuario.
 - Backend dedicado para integrar com OpenRouter sem expor a chave no frontend.
 
@@ -61,9 +61,10 @@ http://localhost:5173
 
 ## Decisoes tecnicas
 
-- A PokeAPI e consumida no frontend para manter a navegacao rapida e simples.
+- A PokeAPI e consumida no frontend para manter a navegacao rapida e responsiva.
+- O carregamento dos Pokemon acontece em lotes para a tela nao ficar travada esperando todos os dados.
 - A chamada para LLM fica no backend para proteger a chave de API.
-- O prompt envia nome, tipos, habilidades e stats do Pokemon para dar contexto suficiente ao modelo.
+- O prompt envia nome, tipos, habilidades e atributos do Pokemon para dar contexto suficiente ao modelo.
 - A interface foi organizada em tres areas: lista, detalhes e chat.
 
 ## Validacao
