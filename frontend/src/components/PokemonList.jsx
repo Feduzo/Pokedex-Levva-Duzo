@@ -1,6 +1,6 @@
 import { visibleTypeFilters } from "../constants/pokemon"
 import { metaFor } from "../constants/types"
-import { animatedSprite, pokemonNumber } from "../utils/pokemon"
+import { animatedSprite, pokemonName, pokemonNumber } from "../utils/pokemon"
 import { TypeBadge } from "./TypeBadge"
 
 export function PokemonList({ filter, loading, pokemon, query, selectedId, onFilterChange, onPokemonSelect, onQueryChange }) {
@@ -8,7 +8,7 @@ export function PokemonList({ filter, loading, pokemon, query, selectedId, onFil
         <aside className="panel list-panel">
             <label className="pokemon-search">
                 <span>#</span>
-                <input value={query} onChange={e => onQueryChange(e.target.value)} placeholder="Buscar Pokemon" />
+                <input value={query} onChange={e => onQueryChange(e.target.value)} placeholder="Buscar Pokémon" />
             </label>
             <div className="filters">
                 {visibleTypeFilters.map(t => (
@@ -25,13 +25,13 @@ export function PokemonList({ filter, loading, pokemon, query, selectedId, onFil
                         <button className={`pokemon-tile ${selectedId === p.id ? "selected" : ""}`} key={p.id} onClick={() => onPokemonSelect(p)}>
                             <span className="number">{pokemonNumber(p.id)}</span>
                             <img src={animatedSprite(p) || p.sprites.front_default} alt={p.name} />
-                            <strong>{p.name}</strong>
+                            <strong>{pokemonName(p.name)}</strong>
                             <span className="mini-types">{p.types.map(t => <TypeBadge key={t.type.name} type={t.type.name} />)}</span>
                         </button>
                     ))}
                 </div>
             ) : (
-                <div className="empty-list"><strong>Nenhum Pokemon encontrado.</strong><span>Tente outro nome ou tipo.</span></div>
+                <div className="empty-list"><strong>Nenhum Pokémon encontrado.</strong><span>Tente outro nome ou tipo.</span></div>
             )}
         </aside>
     )

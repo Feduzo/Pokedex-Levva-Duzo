@@ -1,10 +1,11 @@
 import { useState } from "react"
 import professorCarvalho from "../assets/professor-carvalho.png"
 import { askProfessor } from "../services/chat"
+import { pokemonName } from "../utils/pokemon"
 
 const initialMessage = {
   role: "professor",
-  text: "Ola! Eu sou o Professor Carvalho. Escolha um Pokemon e me pergunte sobre tipos, fraquezas, estrategias ou curiosidades.",
+  text: "Olá! Eu sou o Professor Carvalho. Escolha um Pokémon e me pergunte sobre tipos, fraquezas, estratégias ou curiosidades.",
 }
 
 export function ProfessorChat({ pokemon }) {
@@ -49,9 +50,9 @@ export function ProfessorChat({ pokemon }) {
   }
 
   const suggestions = pokemon ? [
-    { label: "Fraquezas", text: `Quais sao as fraquezas de ${pokemon.name}?` },
-    { label: "Estrategia", text: `Crie uma estrategia de batalha para ${pokemon.name}.` },
-    { label: "Para iniciante", text: `Explique ${pokemon.name} para iniciante.` },
+    { label: "Fraquezas", text: `Quais são as fraquezas de ${pokemonName(pokemon.name)}?` },
+    { label: "Estratégia", text: `Crie uma estratégia de batalha para ${pokemonName(pokemon.name)}.` },
+    { label: "Resumo", text: `Explique ${pokemonName(pokemon.name)} para iniciante.` },
   ] : []
 
   return (
@@ -60,7 +61,7 @@ export function ProfessorChat({ pokemon }) {
         <ProfessorAvatar status={status} />
         <div>
           <h2>Professor Carvalho</h2>
-          <p>{status === "thinking" ? "Pensando..." : "Especialista Pokemon"}</p>
+          <p>{status === "thinking" ? "Pensando..." : "Especialista Pokémon"}</p>
         </div>
       </div>
 
@@ -87,7 +88,7 @@ export function ProfessorChat({ pokemon }) {
         <input
           value={question}
           onChange={event => setQuestion(event.target.value)}
-          placeholder={pokemon ? `Pergunte ao Professor Carvalho sobre ${pokemon.name}...` : "Escolha um Pokemon primeiro..."}
+          placeholder={pokemon ? `Pergunte ao Professor Carvalho sobre ${pokemonName(pokemon.name)}...` : "Escolha um Pokémon primeiro..."}
           disabled={!pokemon || status === "thinking"}
         />
         <button disabled={!pokemon || status === "thinking"}>{status === "thinking" ? "..." : "Perguntar"}</button>
