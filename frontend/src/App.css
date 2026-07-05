@@ -147,6 +147,8 @@ input:focus-visible {
 .list-panel {
   display: flex;
   flex-direction: column;
+  height: 650px;
+  min-height: 650px;
   overflow: hidden;
 }
 
@@ -176,28 +178,19 @@ input:focus-visible {
   color: #111827;
 }
 
-.filters {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.list-summary {
+  display: flex;
+  align-items: baseline;
   gap: 8px;
   margin-bottom: 12px;
-}
-
-.filters button {
-  min-height: 38px;
-  border: 1px solid #d7e0ec;
-  border-radius: 10px;
-  background: #fff;
-  color: #0f172a;
+  color: #475569;
   font-size: 13px;
   font-weight: 800;
 }
 
-.filters .active {
-  border-color: #ef4444;
-  background: #ef4444;
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(239, 68, 68, 0.24);
+.list-summary strong {
+  color: #ef4444;
+  font-size: 22px;
 }
 
 .pokemon-grid {
@@ -751,10 +744,7 @@ input:focus-visible {
 
   .list-panel {
     height: 620px;
-  }
-
-  .filters {
-    grid-template-columns: repeat(2, 1fr);
+    min-height: 620px;
   }
 
   .facts {

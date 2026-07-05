@@ -11,7 +11,6 @@ export default function App() {
     const [pokemon, setPokemon] = useState([])
     const [selected, setSelected] = useState(null)
     const [query, setQuery] = useState("")
-    const [filter, setFilter] = useState("all")
     const [loading, setLoading] = useState(true)
     const [description, setDescription] = useState("")
     const [volume, setVolume] = useState(0.15)
@@ -31,8 +30,8 @@ export default function App() {
 
     const filtered = useMemo(() => pokemon.filter(p => {
         const q = query.trim().toLowerCase()
-        return p.name.includes(q) && (filter === "all" || p.types.some(t => t.type.name === filter))
-    }), [pokemon, query, filter])
+        return p.name.includes(q)
+    }), [pokemon, query])
 
     const choosePokemon = p => { setSelected(p); playCry(p, volume, muted) }
 
@@ -44,7 +43,7 @@ export default function App() {
                 <span className="lens" />
             </header>
             <section className="workspace">
-                <PokemonList filter={filter} loading={loading} pokemon={filtered} query={query} selectedId={selected?.id} onFilterChange={setFilter} onPokemonSelect={choosePokemon} onQueryChange={setQuery} />
+                <PokemonList loading={loading} pokemon={filtered} query={query} total={pokemon.length} selectedId={selected?.id} onPokemonSelect={choosePokemon} onQueryChange={setQuery} />
                 <section className="panel detail-panel">
                     {selected ? <PokemonDetails pokemon={selected} description={description} onCry={() => playCry(selected, volume, muted)} /> : <div className="detail-placeholder">Carregando dados da Pokedex...</div>}
                 </section>

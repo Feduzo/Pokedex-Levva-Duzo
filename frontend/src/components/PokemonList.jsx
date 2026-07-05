@@ -1,24 +1,19 @@
-import { visibleTypeFilters } from "../constants/pokemon"
-import { metaFor } from "../constants/types"
 import { animatedSprite, pokemonName, pokemonNumber } from "../utils/pokemon"
 import { TypeBadge } from "./TypeBadge"
 
-export function PokemonList({ filter, loading, pokemon, query, selectedId, onFilterChange, onPokemonSelect, onQueryChange }) {
+export function PokemonList({ loading, pokemon, query, total, selectedId, onPokemonSelect, onQueryChange }) {
     return (
         <aside className="panel list-panel">
             <label className="pokemon-search">
                 <span>#</span>
                 <input value={query} onChange={e => onQueryChange(e.target.value)} placeholder="Buscar Pokémon" />
             </label>
-            <div className="filters">
-                {visibleTypeFilters.map(t => (
-                    <button className={filter === t ? "active" : ""} key={t} onClick={() => onFilterChange(t)}>
-                        {t === "all" ? "Todos" : `${metaFor(t).icon} ${metaFor(t).label}`}
-                    </button>
-                ))}
+            <div className="list-summary">
+                <strong>{pokemon.length}</strong>
+                <span>{query ? "resultado(s)" : `de ${total || 251} Pokemon`}</span>
             </div>
             {loading ? (
-                <div className="pokemon-grid">{Array.from({ length: 8 }).map((_, i) => <span className="pokemon-tile skeleton" key={i} />)}</div>
+                <div className="pokemon-grid">{Array.from({ length: 10 }).map((_, i) => <span className="pokemon-tile skeleton" key={i} />)}</div>
             ) : pokemon.length ? (
                 <div className="pokemon-grid">
                     {pokemon.map(p => (
@@ -31,7 +26,7 @@ export function PokemonList({ filter, loading, pokemon, query, selectedId, onFil
                     ))}
                 </div>
             ) : (
-                <div className="empty-list"><strong>Nenhum Pokémon encontrado.</strong><span>Tente outro nome ou tipo.</span></div>
+                <div className="empty-list"><strong>Nenhum Pokémon encontrado.</strong><span>Tente outro nome.</span></div>
             )}
         </aside>
     )
