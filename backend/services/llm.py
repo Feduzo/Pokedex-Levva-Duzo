@@ -9,7 +9,13 @@ def build_prompt(pokemon: dict, question: str) -> str:
     types = [t["type"]["name"] for t in pokemon.get("types", [])]
     abilities = [a["ability"]["name"] for a in pokemon.get("abilities", [])]
     stats = {s["stat"]["name"]: s["base_stat"] for s in pokemon.get("stats", [])}
-    return f"Pokemon: {pokemon.get('name')} | Tipos: {types} | Habilidades: {abilities} | Stats: {stats}\n\nPergunta: {question}"
+    return (
+        f"Pokemon selecionado: {pokemon.get('name')}\n"
+        f"Tipos: {types}\n"
+        f"Habilidades: {abilities}\n"
+        f"Atributos: {stats}\n\n"
+        f"Pergunta do usuario: {question}"
+    )
 
 async def ask_llm(pokemon: dict, question: str) -> str:
     api_key = os.getenv("OPENROUTER_API_KEY")
@@ -22,7 +28,7 @@ async def ask_llm(pokemon: dict, question: str) -> str:
                 OPENROUTER_URL,
                 headers={"Authorization": f"Bearer {api_key}"},
                 json={"model": MODEL, "messages": [
-                    {"role": "system", "content": "Voce e o Professor Carvalho. Responda em portugues brasileiro, de forma curta e didatica."},
+                    {"role": "system", "content": "Voce e o Professor Carvalho. Responda em portugues brasileiro, de forma curta, didatica e direta. Evite markdown pesado, tabelas e listas longas. Use no maximo 2 paragrafos ou uma lista curta quando fizer sentido."},
                     {"role": "user", "content": build_prompt(pokemon, question)}
                 ]}
             )
