@@ -573,7 +573,8 @@ input:focus-visible {
 .chat {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  height: 100%;
+  gap: 0;
 }
 
 .chat-title {
@@ -601,7 +602,6 @@ input:focus-visible {
   flex-direction: column;
   gap: 16px;
   min-height: 0;
-  max-height: 490px;
   overflow: auto;
   padding: 18px 4px 18px 0;
 }
@@ -658,7 +658,7 @@ input:focus-visible {
 .quick-actions {
   display: flex;
   gap: 12px;
-  margin-top: auto;
+  margin-top: 12px;
 }
 
 .quick-actions button {
@@ -706,22 +706,19 @@ input:focus-visible {
 }
 
 .professor-avatar {
-  position: relative;
-  width: 138px;
-  height: 126px;
+  width: 64px;
+  height: 64px;
   flex: 0 0 auto;
-  display: grid;
-  place-items: end center;
-  overflow: visible;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #dde3ee;
 }
 
 .professor-avatar img {
-  width: 92px;
-  height: 126px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  object-position: bottom;
-  filter: drop-shadow(0 10px 14px rgba(15, 23, 42, 0.22));
-  transform-origin: 50% 100%;
+  object-position: center;
 }
 
 .professor-thought {

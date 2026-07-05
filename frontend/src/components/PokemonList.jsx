@@ -7,7 +7,7 @@ export function PokemonList({ filter, loading, pokemon, query, selectedId, onFil
     return (
         <aside className="panel list-panel">
             <label className="pokemon-search">
-                <span>⌕</span>
+                <span>#</span>
                 <input value={query} onChange={e => onQueryChange(e.target.value)} placeholder="Buscar Pokemon" />
             </label>
             <div className="filters">
