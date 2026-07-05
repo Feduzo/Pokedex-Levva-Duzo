@@ -18,7 +18,10 @@ export default function App() {
     const [muted, setMuted] = useState(false)
 
     useEffect(() => {
-        fetchPokemonPage(251).then(data => { setPokemon(data); setSelected(data[0]) }).finally(() => setLoading(false))
+        fetchPokemonPage(251, batch => {
+            setPokemon(current => [...current, ...batch])
+            setSelected(current => current || batch[0])
+        }).finally(() => setLoading(false))
     }, [])
 
     useEffect(() => {
