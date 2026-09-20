@@ -3,7 +3,8 @@ import httpx
 from fastapi import HTTPException
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-MODEL = "meta-llama/llama-3.1-8b-instruct"
+
+SYSTEM_PROMPT = "Voce e o Professor Carvalho. Responda em portugues brasileiro, de forma curta, didatica e direta. Evite markdown pesado, tabelas e listas longas. Use no maximo 2 paragrafos ou uma lista curta quando fizer sentido."
 
 def build_prompt(pokemon: dict, question: str) -> str:
     types = [t["type"]["name"] for t in pokemon.get("types", [])]
@@ -17,18 +18,25 @@ def build_prompt(pokemon: dict, question: str) -> str:
         f"Pergunta do usuario: {question}"
     )
 
-async def ask_llm(pokemon: dict, question: str) -> str:
+def provider_config() -> tuple[str, dict, str]:
+    # Com OPENROUTER_API_KEY usa o OpenRouter; sem chave, usa o Ollama local.
     api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
-        raise HTTPException(status_code=503, detail="OPENROUTER_API_KEY nao configurada.")
+    if api_key:
+        model = os.getenv("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct:free")
+        return OPENROUTER_URL, {"Authorization": f"Bearer {api_key}"}, model
+    base = os.getenv("OLLAMA_URL", "http://localhost:11434")
+    return f"{base}/v1/chat/completions", {}, os.getenv("OLLAMA_MODEL", "llama3.2")
+
+async def ask_llm(pokemon: dict, question: str) -> str:
+    url, headers, model = provider_config()
 
     try:
-        async with httpx.AsyncClient(timeout=20) as c:
+        async with httpx.AsyncClient(timeout=60) as c:
             r = await c.post(
-                OPENROUTER_URL,
-                headers={"Authorization": f"Bearer {api_key}"},
-                json={"model": MODEL, "messages": [
-                    {"role": "system", "content": "Voce e o Professor Carvalho. Responda em portugues brasileiro, de forma curta, didatica e direta. Evite markdown pesado, tabelas e listas longas. Use no maximo 2 paragrafos ou uma lista curta quando fizer sentido."},
+                url,
+                headers=headers,
+                json={"model": model, "messages": [
+                    {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": build_prompt(pokemon, question)}
                 ]}
             )
@@ -36,5 +44,7 @@ async def ask_llm(pokemon: dict, question: str) -> str:
             return r.json()["choices"][0]["message"]["content"]
     except httpx.HTTPStatusError as e:
         raise HTTPException(status_code=e.response.status_code, detail="Erro ao consultar a LLM.")
+    except httpx.ConnectError:
+        raise HTTPException(status_code=503, detail="LLM indisponivel. Inicie o Ollama (ollama serve) ou configure OPENROUTER_API_KEY.")
     except httpx.HTTPError:
         raise HTTPException(status_code=502, detail="Nao foi possivel consultar a LLM agora.")

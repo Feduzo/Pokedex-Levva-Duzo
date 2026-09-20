@@ -8,7 +8,7 @@ A aplicacao lista Pokemon das duas primeiras geracoes, exibe detalhes consumidos
 
 - Frontend: React + Vite
 - Backend: FastAPI
-- APIs externas: PokeAPI e OpenRouter
+- APIs externas: PokeAPI; LLM via Ollama (local) ou OpenRouter (opcional)
 
 ## Funcionalidades
 
@@ -29,11 +29,16 @@ pip install -r requirements.txt
 copy .env.example .env
 ```
 
-Configure `backend/.env`:
+Escolha como o Professor Carvalho (chat) vai responder:
+
+- **Ollama local (padrao, sem chave e sem custo):** instale o [Ollama](https://ollama.com), rode `ollama pull llama3.2` e mantenha o Ollama aberto. Nao precisa editar o `.env`.
+- **OpenRouter (opcional):** crie uma chave gratuita em openrouter.ai/keys e coloque em `backend/.env`. Com a chave definida, ela tem prioridade sobre o Ollama e usa um modelo `:free`.
 
 ```bash
 OPENROUTER_API_KEY=sua_chave_aqui
 ```
+
+Variaveis opcionais: `OPENROUTER_MODEL`, `OLLAMA_URL` e `OLLAMA_MODEL` (veja `backend/.env.example`). Nunca envie o `.env` para o Git.
 
 Instale as dependencias do frontend:
 
