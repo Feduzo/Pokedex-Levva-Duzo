@@ -29,9 +29,11 @@ pip install -r requirements.txt
 copy .env.example .env
 ```
 
+Ao rodar `npm run start` ou `npm run dev`, o script `setup-llm.ps1` configura o chat sozinho: se nao houver chave, ele pergunta; se voce apertar Enter, instala o Ollama (via winget, com confirmacao), inicia o servico e baixa o modelo `llama3.2`. A escolha fica salva em `backend/.env`.
+
 Escolha como o Professor Carvalho (chat) vai responder:
 
-- **Ollama local (padrao, sem chave e sem custo):** instale o [Ollama](https://ollama.com), rode `ollama pull llama3.2` e mantenha o Ollama aberto. Nao precisa editar o `.env`.
+- **Ollama local (padrao, sem chave e sem custo):** instalado e iniciado automaticamente pelo script. Para fazer manualmente: instale o [Ollama](https://ollama.com) e rode `ollama pull llama3.2`.
 - **OpenRouter (opcional):** crie uma chave gratuita em openrouter.ai/keys e coloque em `backend/.env`. Com a chave definida, ela tem prioridade sobre o Ollama e usa um modelo `:free`.
 
 ```bash

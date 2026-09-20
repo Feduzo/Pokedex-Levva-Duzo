@@ -3,6 +3,8 @@ if (!(Test-Path ".\backend\venv\Scripts\python.exe")) {
     exit 1
 }
 
+. "$PSScriptRootsetup-llm.ps1"
+
 $backend = Start-Process -FilePath ".\backend\venv\Scripts\python.exe" -ArgumentList "-m", "uvicorn", "main:app", "--reload" -WorkingDirectory ".\backend" -PassThru
 $frontend = Start-Process -FilePath "npm.cmd" -ArgumentList "run", "dev" -WorkingDirectory ".\frontend" -PassThru
 
