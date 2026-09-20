@@ -41,7 +41,7 @@ export function ProfessorChat({ pokemon }) {
         ...current,
         {
           role: "professor",
-          text: "Nao consegui acessar a LLM agora. Confira se o backend esta rodando em localhost:8000 e se OPENROUTER_API_KEY esta configurada no backend/.env.",
+          text: "Nao consegui acessar a LLM agora. Confira se o backend esta rodando em localhost:8000 e se o Ollama esta ativo (ou se OPENROUTER_API_KEY esta no backend/.env).",
           error: true,
         },
       ])

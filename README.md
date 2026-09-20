@@ -1,89 +1,109 @@
-# Pokedex Inteligente - levva
+# Pokédex AI
 
-Projeto desenvolvido para o desafio tecnico de Estagio em Engenharia de Software da levva.
+![CI](https://github.com/Feduzo/pokedex-ai/actions/workflows/ci.yml/badge.svg)
 
-A aplicacao lista Pokemon das duas primeiras geracoes, exibe detalhes consumidos da PokeAPI e permite conversar com uma LLM sobre o Pokemon selecionado.
+Uma Pokédex das duas primeiras gerações com um assistente de IA: escolha um Pokémon, veja seus dados e converse com o **Professor Carvalho** sobre tipos, fraquezas e estratégias. O chat responde com o contexto do Pokémon selecionado.
 
-## Stack
+Projeto originado de um desafio técnico de estágio em Engenharia de Software, evoluído para funcionar em qualquer sistema e sem depender de chaves de API.
 
-- Frontend: React + Vite
-- Backend: FastAPI
-- APIs externas: PokeAPI; LLM via Ollama (local) ou OpenRouter (opcional)
+![Tela principal da Pokédex](docs/screenshots/home.png)
+
+![Conversa com o Professor Carvalho](docs/screenshots/chat.png)
+
+> O print do chat foi gerado com o modelo `mistral` rodando localmente no Ollama.
 
 ## Funcionalidades
 
-- Busca de Pokemon por nome.
-- Detalhes com imagem, tipos, atributos, altura, peso, habilidade e som.
-- Chat com o Professor Carvalho usando contexto do Pokemon selecionado.
-- Backend intermediando a chamada para a LLM para nao expor a chave no frontend.
+- Lista dos 251 Pokémon (Gerações 1 e 2), com busca por nome e carregamento em lotes.
+- Detalhes com arte oficial, tipos, atributos, altura, peso, habilidade e som.
+- Chat com o Professor Carvalho, que recebe tipos, habilidades e atributos do Pokémon como contexto.
+- LLM configurável: **Ollama local** (sem chave e sem custo) ou **OpenRouter** (opcional).
+- O backend intermedia a chamada à LLM, então nenhuma chave chega ao navegador.
+
+## Stack
+
+| Camada | Tecnologias |
+| --- | --- |
+| Frontend | React 19, Vite |
+| Backend | FastAPI, httpx, python-dotenv |
+| Dados | [PokeAPI](https://pokeapi.co) |
+| LLM | Ollama (local) ou OpenRouter |
+| Qualidade | ESLint, pytest, GitHub Actions |
+
+## Como funciona
+
+```text
+Navegador ──► React (Vite)
+                 ├──► PokeAPI          (lista e detalhes dos Pokémon)
+                 └──► FastAPI /chat/   ──► Ollama (padrão)
+                                       └─► OpenRouter (se houver chave)
+```
+
+Em produção (`npm start`), o próprio FastAPI serve o build do frontend, então tudo roda em uma única porta.
 
 ## Como rodar
 
-Instale as dependencias do backend:
+Requisitos: **Node.js 18+** e **Python 3.10+**. Funciona em Windows, macOS e Linux.
 
 ```bash
-cd backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-copy .env.example .env
+git clone https://github.com/Feduzo/pokedex-ai.git
+cd pokedex-ai
+npm start
 ```
 
-Ao rodar `npm run start` ou `npm run dev`, o script `setup-llm.ps1` configura o chat sozinho: se nao houver chave, ele pergunta; se voce apertar Enter, instala o Ollama (via winget, com confirmacao), inicia o servico e baixa o modelo `llama3.2`. A escolha fica salva em `backend/.env`.
+Acesse **http://localhost:8000**.
 
-Escolha como o Professor Carvalho (chat) vai responder:
+Na primeira execução o script `scripts/run.mjs` cuida de tudo:
 
-- **Ollama local (padrao, sem chave e sem custo):** instalado e iniciado automaticamente pelo script. Para fazer manualmente: instale o [Ollama](https://ollama.com) e rode `ollama pull llama3.2`.
-- **OpenRouter (opcional):** crie uma chave gratuita em openrouter.ai/keys e coloque em `backend/.env`. Com a chave definida, ela tem prioridade sobre o Ollama e usa um modelo `:free`.
+1. cria o ambiente virtual e instala as dependências do backend e do frontend;
+2. pergunta pela sua chave do OpenRouter. Se você apertar **Enter**, ele usa o **Ollama local**: instala (com confirmação), inicia o serviço e baixa o modelo `llama3.2`;
+3. gera o build do frontend e sobe o servidor.
+
+Sua escolha fica salva em `backend/.env`, que é ignorado pelo Git.
+
+### Escolhendo a LLM
+
+| Opção | Como usar |
+| --- | --- |
+| **Ollama local** (padrão) | Nada a configurar. Manualmente: instale o [Ollama](https://ollama.com) e rode `ollama pull llama3.2`. |
+| **OpenRouter** | Crie uma chave gratuita em [openrouter.ai/keys](https://openrouter.ai/keys) e coloque em `backend/.env`. Com a chave definida, ela tem prioridade sobre o Ollama e usa um modelo gratuito (`:free`). |
 
 ```bash
+# backend/.env
 OPENROUTER_API_KEY=sua_chave_aqui
 ```
 
-Variaveis opcionais: `OPENROUTER_MODEL`, `OLLAMA_URL` e `OLLAMA_MODEL` (veja `backend/.env.example`). Nunca envie o `.env` para o Git.
+Variáveis opcionais: `OPENROUTER_MODEL`, `OLLAMA_URL` e `OLLAMA_MODEL` (veja `backend/.env.example`).
 
-Instale as dependencias do frontend:
+> Nunca versione o `.env`. A chave fica só na sua máquina.
 
-```bash
-cd ../frontend
-npm install
-```
-
-Volte para a raiz e rode a aplicacao completa:
-
-```bash
-cd ..
-npm run start
-```
-
-Acesse:
-
-```bash
-http://localhost:8000
-```
-
-## Desenvolvimento
-
-Para trabalhar com hot reload no frontend:
+### Modo desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-Nesse modo, o backend roda em `http://localhost:8000` e o frontend em `http://localhost:5173`.
+Backend com reload em `http://localhost:8000` e frontend com hot reload em `http://localhost:5173`.
 
-## Decisoes tecnicas
-
-- O backend serve o build do frontend para facilitar a avaliacao em uma unica porta.
-- A lista de Pokemon e carregada em lotes para evitar uma tela travada enquanto os dados chegam.
-- O prompt da LLM recebe tipos, habilidades e atributos do Pokemon para responder com contexto.
-- A interface foi separada em lista, detalhes e chat para deixar o fluxo de uso direto.
-
-## Validacao
+## Testes e qualidade
 
 ```bash
-npm run lint
-npm run build
+npm test        # testes do backend (pytest)
+npm run lint    # ESLint no frontend
+npm run build   # build de produção
 ```
 
-Tambem foi feita validacao de sintaxe dos arquivos Python do backend.
+O CI (GitHub Actions) roda lint, build e testes a cada push.
+
+## Decisões técnicas
+
+- **Backend como intermediário da LLM:** evita expor chaves no frontend e permite trocar de provedor sem mexer na interface.
+- **Provedor com fallback:** se não há chave, o app usa o Ollama local. Assim o projeto roda para qualquer pessoa, sem cadastro nem custo.
+- **Configuração lida na hora da chamada:** as variáveis de ambiente são resolvidas dentro da função, e não na importação do módulo, para respeitar o `.env` carregado pelo `load_dotenv()`.
+- **Lista carregada em lotes:** evita uma tela travada enquanto os 251 Pokémon chegam.
+- **Prompt com contexto:** tipos, habilidades e atributos do Pokémon vão junto da pergunta para respostas mais precisas.
+- **Uma porta só em produção:** o FastAPI serve o build do frontend, o que simplifica rodar e demonstrar.
+
+## Licença
+
+[MIT](LICENSE)

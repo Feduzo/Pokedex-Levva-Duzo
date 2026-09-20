@@ -8,7 +8,7 @@ from routers import chat, pokemon
 
 load_dotenv()
 
-app = FastAPI(title="Pokedex Levva Duzo API")
+app = FastAPI(title="Pokedex AI API")
 frontend_dist = Path(__file__).resolve().parent.parent / "frontend" / "dist"
 
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"], allow_methods=["*"], allow_headers=["*"])
@@ -24,7 +24,7 @@ async def index():
     index_file = frontend_dist / "index.html"
     if index_file.exists():
         return FileResponse(index_file)
-    return {"status": "ok", "service": "Pokedex Levva Duzo API"}
+    return {"status": "ok", "service": "Pokedex AI API"}
 
 @app.get("/health")
 async def health_check():
