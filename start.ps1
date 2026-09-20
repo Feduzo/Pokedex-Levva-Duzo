@@ -3,7 +3,7 @@ if (!(Test-Path ".\backend\venv\Scripts\python.exe")) {
     exit 1
 }
 
-. "$PSScriptRootsetup-llm.ps1"
+. "$PSScriptRoot/setup-llm.ps1"
 
 npm --prefix frontend run build
 Set-Location backend
